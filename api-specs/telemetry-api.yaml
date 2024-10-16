@@ -1,0 +1,73 @@
+openapi: 3.0.0
+info:
+  title: Telemetry API
+  version: 1.0.0
+paths:
+  /devices/{device_id}/telemetry/latest:
+    get:
+      summary: Get latest telemetry data
+      parameters:
+        - name: device_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Latest telemetry data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelemetryData'
+        '404':
+          description: Device not found
+        '500':
+          description: Server error
+  /devices/{device_id}/telemetry:
+    get:
+      summary: Get historical telemetry data
+      parameters:
+        - name: device_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: start_time
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+        - name: end_time
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: Historical telemetry data retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TelemetryData'
+        '404':
+          description: Device not found
+        '500':
+          description: Server error
+components:
+  schemas:
+    TelemetryData:
+      type: object
+      properties:
+        id:
+          type: string
+        device_id:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          type: string
