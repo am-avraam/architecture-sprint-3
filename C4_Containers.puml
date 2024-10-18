@@ -10,6 +10,7 @@ System_Boundary(SmartHomeSystem, "Smart Home System") {
     Container(deviceManagementService, "Device Management Service", "Spring Boot", "Manages device operations")
     Container(temperatureMonitoringService, "Temperature Monitoring Service", "Spring Boot", "Monitors and reports the current temperature")
     Container(userService, "User Service", "Spring Boot", "Manages user information and authentication")
+    Container(scenarioManagementService, "Scenario Management Service", "Spring Boot", "Manages automation scenarios")
     Container(notificationService, "Notification Service", "Spring Boot", "Sends notifications to users")
 
     ContainerDb(deviceDb, "Device DB", "PostgreSQL", "Stores device information")
@@ -24,6 +25,7 @@ Rel(user, apiGateway, "Uses")
 Rel(apiGateway, deviceManagementService, "Routes requests to")
 Rel(apiGateway, temperatureMonitoringService, "Routes requests to")
 Rel(apiGateway, userService, "Routes requests to")
+Rel(apiGateway, scenarioManagementService, "Routes requests to")
 Rel(apiGateway, notificationService, "Routes requests to")
 
 Rel(deviceManagementService, deviceDb, "Reads from and writes to")

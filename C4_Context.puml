@@ -6,13 +6,9 @@ title System Context Diagram for Smart Home Monolith
 Person(user, "User", "A user of the smart home system")
 System_Ext(sensor, "Sensor", "A temperature sensor in the smart home")
 
-System_Boundary(SmartHomeMonolith, "Smart Home Monolith") {
-    System(deviceManagement, "Device Management", "Handles device operations like turning heating on/off and setting target temperature")
-    System(temperatureMonitoring, "Temperature Monitoring", "Monitors and reports the current temperature")
-}
+System(SmartHomeMonolith, "Smart Home Monolith", "Handles device operations and monitors temperature")
 
-Rel(user, deviceManagement, "Uses")
-Rel(sensor, temperatureMonitoring, "Sends Data")
-Rel(deviceManagement, temperatureMonitoring, "Fetches current temperature")
+Rel(user, SmartHomeMonolith, "Uses")
+Rel(SmartHomeMonolith, sensor, "Fetches data from")
 
 @enduml

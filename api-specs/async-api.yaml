@@ -1,0 +1,58 @@
+asyncapi: 2.0.0
+info:
+  title: Smart Home AsyncAPI
+  version: 1.0.0
+channels:
+  device-status-changed:
+    description: Channel for device status change events
+    publish:
+      summary: Device status changed
+      operationId: deviceStatusChanged
+      message:
+        contentType: application/json
+        payload:
+          type: object
+          properties:
+            device_id:
+              type: string
+            status:
+              type: string
+            timestamp:
+              type: string
+              format: date-time
+  device-command-sent:
+    description: Channel for device command sent events
+    publish:
+      summary: Device command sent
+      operationId: deviceCommandSent
+      message:
+        contentType: application/json
+        payload:
+          type: object
+          properties:
+            device_id:
+              type: string
+            command:
+              type: string
+            value:
+              type: string
+            timestamp:
+              type: string
+              format: date-time
+  telemetry-data-received:
+    description: Channel for telemetry data received events
+    publish:
+      summary: Telemetry data received
+      operationId: telemetryDataReceived
+      message:
+        contentType: application/json
+        payload:
+          type: object
+          properties:
+            device_id:
+              type: string
+            timestamp:
+              type: string
+              format: date-time
+            data:
+              type: string

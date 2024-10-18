@@ -6,6 +6,8 @@ paths:
   /devices/{device_id}:
     get:
       summary: Get device information
+      security:
+        - bearerAuth: []
       parameters:
         - name: device_id
           in: path
@@ -26,6 +28,8 @@ paths:
   /devices/{device_id}/status:
     put:
       summary: Update device status
+      security:
+        - bearerAuth: []
       parameters:
         - name: device_id
           in: path
@@ -51,6 +55,8 @@ paths:
   /devices/{device_id}/commands:
     post:
       summary: Send command to device
+      security:
+        - bearerAuth: []
       parameters:
         - name: device_id
           in: path
@@ -90,3 +96,8 @@ components:
           type: string
         status:
           type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

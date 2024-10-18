@@ -6,6 +6,8 @@ paths:
   /devices/{device_id}/telemetry/latest:
     get:
       summary: Get latest telemetry data
+      security:
+        - bearerAuth: []
       parameters:
         - name: device_id
           in: path
@@ -26,6 +28,8 @@ paths:
   /devices/{device_id}/telemetry:
     get:
       summary: Get historical telemetry data
+      security:
+        - bearerAuth: []
       parameters:
         - name: device_id
           in: path
@@ -71,3 +75,8 @@ components:
           format: date-time
         data:
           type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
