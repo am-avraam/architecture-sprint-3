@@ -1,0 +1,14 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+title System Context Diagram for Smart Home Monolith
+
+Person(user, "User", "A user of the smart home system")
+System_Ext(sensor, "Sensor", "A temperature sensor in the smart home")
+
+System(SmartHomeMonolith, "Smart Home Monolith", "Handles device operations and monitors temperature")
+
+Rel(user, SmartHomeMonolith, "Uses")
+Rel(SmartHomeMonolith, sensor, "Fetches data from")
+
+@enduml
