@@ -6,19 +6,20 @@ title Container Diagram for Smart Home Microservices
 Person(user, "User", "A user of the smart home system")
 
 System_Boundary(SmartHomeSystem, "Smart Home System") {
-    Container(apiGateway, "API Gateway", "Spring Cloud Gateway", "Handles incoming requests and routes them to appropriate services")
-    Container(deviceManagementService, "Device Management Service", "Spring Boot", "Manages device operations")
-    Container(temperatureMonitoringService, "Temperature Monitoring Service", "Spring Boot", "Monitors and reports the current temperature")
-    Container(userService, "User Service", "Spring Boot", "Manages user information and authentication")
-    Container(scenarioManagementService, "Scenario Management Service", "Spring Boot", "Manages automation scenarios")
-    Container(notificationService, "Notification Service", "Spring Boot", "Sends notifications to users")
+  Container(apiGateway, "API Gateway", "Spring Cloud Gateway", "Handles incoming requests and routes them to appropriate services")
+  Container(deviceManagementService, "Device Management Service", "Spring Boot", "Manages device operations")
+  Container(temperatureMonitoringService, "Temperature Monitoring Service", "Spring Boot", "Monitors and reports the current temperature")
+  Container(userService, "User Service", "Spring Boot", "Manages user information and authentication")
+  Container(scenarioManagementService, "Scenario Management Service", "Spring Boot", "Manages automation scenarios")
+  Container(notificationService, "Notification Service", "Spring Boot", "Sends notifications to users")
 
-    ContainerDb(deviceDb, "Device DB", "PostgreSQL", "Stores device information")
-    ContainerDb(temperatureDb, "Temperature DB", "Redis", "Stores temperature data")
-    ContainerDb(userDb, "User DB", "PostgreSQL", "Stores user information")
-    ContainerDb(notificationDb, "Notification DB", "MongoDB", "Stores notification data")
+  ContainerDb(deviceDb, "Device DB", "PostgreSQL", "Stores device information")
+  ContainerDb(temperatureDb, "Temperature DB", "Redis", "Stores temperature data")
+  ContainerDb(userDb, "User DB", "PostgreSQL", "Stores user information")
+  ContainerDb(notificationDb, "Notification DB", "MongoDB", "Stores notification data")
+  ContainerDb(scenarioDb, "Scenario DB", "PostgreSQL", "Stores scenario information")
 
-    Container(kafka, "Kafka", "Apache Kafka", "Message broker for asynchronous communication")
+  Container(kafka, "Kafka", "Apache Kafka", "Message broker for asynchronous communication")
 }
 
 Rel(user, apiGateway, "Uses")
@@ -32,9 +33,27 @@ Rel(deviceManagementService, deviceDb, "Reads from and writes to")
 Rel(temperatureMonitoringService, temperatureDb, "Reads from and writes to")
 Rel(userService, userDb, "Reads from and writes to")
 Rel(notificationService, notificationDb, "Reads from and writes to")
+Rel(scenarioManagementService, scenarioDb, "Reads from and writes to")
 
 Rel(deviceManagementService, kafka, "Publishes events to", "Kafka topic")
 Rel(temperatureMonitoringService, kafka, "Publishes events to", "Kafka topic")
 Rel(notificationService, kafka, "Subscribes to events from", "Kafka topic")
+Rel(scenarioManagementService, kafka, "Subscribes to events from", "Kafka topic")
+
+Container_Ext(sensor, "Sensor", "IoT Device", "Sends data to the system")
+Rel(sensor, deviceManagementService, "Sends data to")
+Rel(sensor, temperatureMonitoringService, "Sends temperature data to")
+Rel(sensor, kafka, "Publishes events to", "Kafka topic")
+
+Container_Ext(otherDevice, "Other Device", "IoT Device", "Sends data to the system")
+Rel(otherDevice, deviceManagementService, "Sends data to")
+Rel(otherDevice, kafka, "Publishes events to", "Kafka topic")
+
+Container(scenarioManagementService, "Scenario Management Service", "Spring Boot", "Manages automation scenarios")
+Rel(scenarioManagementService, scenarioDb, "Reads from and writes to")
+Rel(scenarioManagementService, kafka, "Subscribes to events from", "Kafka topic")
+Rel(userService, kafka, "Publishes user data changes to", "Kafka topic")
+Rel(scenarioManagementService, kafka, "Subscribes to user data changes from", "Kafka topic")
+}
 
 @enduml

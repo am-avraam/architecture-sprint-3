@@ -56,3 +56,37 @@ channels:
               format: date-time
             data:
               type: string
+  user-updated:
+    description: Channel for user update events
+    publish:
+      summary: User updated
+      operationId: userUpdated
+      message:
+        contentType: application/json
+        payload:
+          type: object
+          properties:
+            user_id:
+              type: string
+            name:
+              type: string
+            email:
+              type: string
+            timestamp:
+              type: string
+              format: date-time
+  user-deleted:
+    description: Channel for user deletion events
+    publish:
+      summary: User deleted
+      operationId: userDeleted
+      message:
+        contentType: application/json
+        payload:
+          type: object
+          properties:
+            user_id:
+              type: string
+            timestamp:
+              type: string
+              format: date-time
