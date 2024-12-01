@@ -1,0 +1,103 @@
+openapi: 3.0.0
+info:
+  title: Device Management API
+  version: 1.0.0
+paths:
+  /devices/{device_id}:
+    get:
+      summary: Get device information
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: device_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Device information retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+        '404':
+          description: Device not found
+        '500':
+          description: Server error
+  /devices/{device_id}/status:
+    put:
+      summary: Update device status
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: device_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+      responses:
+        '200':
+          description: Device status updated successfully
+        '404':
+          description: Device not found
+        '500':
+          description: Server error
+  /devices/{device_id}/commands:
+    post:
+      summary: Send command to device
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: device_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                command:
+                  type: string
+                value:
+                  type: string
+      responses:
+        '200':
+          description: Command sent successfully
+        '404':
+          description: Device not found
+        '500':
+          description: Server error
+components:
+  schemas:
+    Device:
+      type: object
+      properties:
+        id:
+          type: string
+        type_id:
+          type: string
+        house_id:
+          type: string
+        serial_number:
+          type: string
+        status:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
